@@ -465,13 +465,14 @@ function join() {
   });
 }
 
-function addChatMessage(name, text, timestamp) {
+function addChatMessage(name, text, time) {
   let p = document.createElement("p");
   if (name) {
     let tag = document.createElement("span");
+    let timestamp = new Date(time).getTime;
     tag.className = "username";
     //Adding the timestamp to the beginning of the name. 
-    tag.innerText = "[" + timestamp + "]" + name + ": ";
+    tag.innerText = "[" + timestamp + "] " + name + ": ";
     p.appendChild(tag);
   }
   p.appendChild(document.createTextNode(text));
