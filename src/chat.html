@@ -471,7 +471,7 @@ function addChatMessage(name, text) {
     let tag = document.createElement("span");
     tag.className = "username";
     //Adding the timestamp to the beginning of the name. 
-    tag.innerText = "[" + data.timestamp + "]" + name + ": ";
+    tag.innerText = name + ": ";
     p.appendChild(tag);
   }
   p.appendChild(document.createTextNode(text));
