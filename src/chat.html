@@ -449,7 +449,7 @@ function join() {
     } else {
       // A regular chat message.
       if (data.timestamp > lastSeenTimestamp) {
-        addChatMessage(data.name, data.message);
+        addChatMessage(data.name, data.message, data.timestamp);
         lastSeenTimestamp = data.timestamp;
       }
     }
@@ -465,13 +465,13 @@ function join() {
   });
 }
 
-function addChatMessage(name, text) {
+function addChatMessage(name, text, timestamp) {
   let p = document.createElement("p");
   if (name) {
     let tag = document.createElement("span");
     tag.className = "username";
     //Adding the timestamp to the beginning of the name. 
-    tag.innerText = name + ": ";
+    tag.innerText = "[" + timestamp + "]" + name + ": ";
     p.appendChild(tag);
   }
   p.appendChild(document.createTextNode(text));
