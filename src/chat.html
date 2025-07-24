@@ -450,11 +450,14 @@ function join() {
       // Compare message dates and add the date to the chat log if it is a new date. 
       let currentDate = new Date(date.timestamp);
       let lastDate = new Date(lastSeenTimestamp);
-      if(currentDate.getDate() != lastDate.getDate()){
+      
+      if(lastDate == 0){
+        addChatMessage(data.name, data.message, data.timestamp);
+        lastSeenTimestamp = data.timestamp;
+      } else if(currentDate.getDate() != lastDate.getDate()){
         addChatMessage(currentDate);
       }
-
-      // A regular chat message.
+      
       if (data.timestamp > lastSeenTimestamp) {
         addChatMessage(data.name, data.message, data.timestamp);
         lastSeenTimestamp = data.timestamp;
