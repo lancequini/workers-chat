@@ -447,6 +447,13 @@ function join() {
         }
       }
     } else {
+      // Compare message dates and add the date to the chat log if it is a new date. 
+      let currentDate = new Date(date.timestamp);
+      let lastDate = new Date(lastSeenTimestamp);
+      if(currentDate.getDate() != lastDate.getDate()){
+        addChatMessage(currentDate);
+      }
+
       // A regular chat message.
       if (data.timestamp > lastSeenTimestamp) {
         addChatMessage(data.name, data.message, data.timestamp);
@@ -465,17 +472,37 @@ function join() {
   });
 }
 
+//Adds a new Chat message with a timestamp.
 function addChatMessage(name, text, time) {
   let p = document.createElement("p");
+  let timestamp = new Date(time);
+
   if (name) {
     let tag = document.createElement("span");
-    let timestamp = new Date(time).toLocaleTimeString();
     tag.className = "username";
-    //Adding the timestamp to the beginning of the name. 
-    tag.innerText = "[" + timestamp + "] " + name + ": ";
+    tag.innerText = "[" + timestamp.toLocaleString() + "] " + name + ": ";
     p.appendChild(tag);
   }
   p.appendChild(document.createTextNode(text));
+
+  // Append the new chat line, making sure that if the chatlog was scrolled to the bottom
+  // before, it remains scrolled to the bottom, and otherwise the scroll position doesn't
+  // change.
+  chatlog.appendChild(p);
+  if (isAtBottom) {
+    chatlog.scrollBy(0, 1e8);
+  }
+}
+
+//Adds a new Date message for a new day.
+function addChatMessage(time) {
+  let p = document.createElement("p");
+  let timestamp = new Date(time);
+
+  // Get the last child from the chatlog. Need to find out how to the data is returned. 
+  // Compare the year, month and date to the current message. If the new message is on 
+  // a new day, post the year, month and date of the message in a new message (new line).
+  p.appendChild(document.createTextNode(timestamp));
 
   // Append the new chat line, making sure that if the chatlog was scrolled to the bottom
   // before, it remains scrolled to the bottom, and otherwise the scroll position doesn't
